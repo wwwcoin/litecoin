@@ -533,7 +533,7 @@ public:
 
     bool IsPayToScriptHash() const;
 
-    // Called by CTransaction::IsStandard
+    // Called by CTransaction::IsStandard and P2SH VerifyScript (which makes it consensus-critical).
     bool IsPushOnly() const
     {
         const_iterator pc = begin();
@@ -547,6 +547,9 @@ public:
         }
         return true;
     }
+
+    // Called by IsStandardTx.
+    bool HasCanonicalPushes() const;
 
     // Returns whether the script is guaranteed to fail at execution,
     // regardless of the initial stack. This allows outputs to be pruned
